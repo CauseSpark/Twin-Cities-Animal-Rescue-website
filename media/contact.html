@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Get Involved | Twin Cities Animal Rescue</title>
+  <meta name="description" content="Submit a volunteer, foster, or adoption interest form to Twin Cities Animal Rescue.">
+</head>
+<body>
+
+  <header>
+    <a href="index.html">
+      <img src="media/rescue-logo.png"
+           alt="Twin Cities Animal Rescue"
+           width="240" height="220">
+    </a>
+    <p>Every animal deserves a safe place to land.</p>
+
+    <nav aria-label="Main navigation">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="services.html">Our Programs</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html" aria-current="page">Get Involved</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Get Involved</h1>
+
+    <p>
+      Tell us how you would like to help and a coordinator will respond within three
+      business days. There is no cost and no obligation to submit this form.
+      Placeholder text introducing the form goes here.
+    </p>
+
+    <section>
+      <h2>Volunteer, Foster, and Adoption Interest Form</h2>
+      <p>Fields marked with an asterisk are required.</p>
+
+      <form action="/submit-interest" method="post">
+
+        <fieldset>
+          <legend>Your Contact Information</legend>
+
+          <p>
+            <label for="full-name">Full name *</label>
+            <input type="text" id="full-name" name="full-name"
+                   autocomplete="name" minlength="2" maxlength="60"
+                   placeholder="Jordan Ramirez" required>
+          </p>
+
+          <p>
+            <label for="email">Email address *</label>
+            <input type="email" id="email" name="email"
+                   autocomplete="email" maxlength="80"
+                   placeholder="jordan@example.com" required>
+          </p>
+
+          <p>
+            <label for="phone">Phone number (optional)</label>
+            <input type="tel" id="phone" name="phone"
+                   autocomplete="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                   placeholder="651-555-0142">
+            <span id="phone-help">Format: 651-555-0142</span>
+          </p>
+
+          <p>
+            <label for="zip">ZIP code *</label>
+            <input type="text" id="zip" name="zip"
+                   autocomplete="postal-code" pattern="[0-9]{5}"
+                   maxlength="5" placeholder="55104" required>
+            <span id="zip-help">We use this to confirm you are inside our service area.</span>
+          </p>
+        </fieldset>
+
+        <fieldset>
+          <legend>How would you like to help? *</legend>
+
+          <p>
+            <input type="radio" id="interest-volunteer" name="interest-type"
+                   value="volunteer" required>
+            <label for="interest-volunteer">Volunteer at the shelter or at events</label>
+          </p>
+
+          <p>
+            <input type="radio" id="interest-foster" name="interest-type" value="foster">
+            <label for="interest-foster">Foster an animal temporarily</label>
+          </p>
+
+          <p>
+            <input type="radio" id="interest-adoption" name="interest-type" value="adoption">
+            <label for="interest-adoption">Receive adoption information</label>
+          </p>
+
+          <p>
+            <input type="radio" id="interest-partner" name="interest-type" value="partner">
+            <label for="interest-partner">Explore a business or community partnership</label>
+          </p>
+        </fieldset>
+
+        <fieldset>
+          <legend>Your Availability</legend>
+
+          <p>
+            <label for="start-date">Earliest date you could start *</label>
+            <input type="date" id="start-date" name="start-date"
+                   min="2026-09-06" required>
+          </p>
+
+          <p>Which days generally work for you? Select all that apply.</p>
+
+          <p>
+            <input type="checkbox" id="day-weekday-morning" name="availability"
+                   value="weekday-morning">
+            <label for="day-weekday-morning">Weekday mornings</label>
+          </p>
+
+          <p>
+            <input type="checkbox" id="day-weekday-evening" name="availability"
+                   value="weekday-evening">
+            <label for="day-weekday-evening">Weekday evenings</label>
+          </p>
+
+          <p>
+            <input type="checkbox" id="day-weekend" name="availability" value="weekend">
+            <label for="day-weekend">Weekends</label>
+          </p>
+
+          <p>
+            <input type="checkbox" id="day-on-call" name="availability" value="on-call">
+            <label for="day-on-call">On call for transport emergencies</label>
+          </p>
+
+          <p>
+            <label for="hours-per-month">Hours you can offer each month</label>
+            <input type="number" id="hours-per-month" name="hours-per-month"
+                   min="1" max="80" step="1" placeholder="8">
+          </p>
+        </fieldset>
+
+        <fieldset>
+          <legend>Your Experience With Animals</legend>
+
+          <p>
+            <label for="experience-level">Experience level *</label>
+            <select id="experience-level" name="experience-level" required>
+              <option value="">Choose one</option>
+              <option value="none">No experience, but eager to learn</option>
+              <option value="pet-owner">Current or former pet owner</option>
+              <option value="foster">Previous foster or shelter volunteer</option>
+              <option value="professional">Professional animal care or veterinary background</option>
+            </select>
+          </p>
+
+          <p>
+            <label for="animal-preference">Animals you are most comfortable with</label>
+            <select id="animal-preference" name="animal-preference">
+              <option value="either">Dogs or cats, either is fine</option>
+              <option value="dogs">Dogs</option>
+              <option value="cats">Cats</option>
+              <option value="small">Small animals such as rabbits or guinea pigs</option>
+              <option value="medical">Animals with medical or behavioral needs</option>
+            </select>
+          </p>
+
+          <p>
+            <label for="household">Tell us about your household</label>
+            <textarea id="household" name="household" rows="3" maxlength="300"
+                      placeholder="Other pets, children, yard or fencing, allergies"></textarea>
+          </p>
+        </fieldset>
+
+        <fieldset>
+          <legend>Anything Else We Should Know?</legend>
+
+          <p>
+            <label for="message">Your message *</label>
+            <textarea id="message" name="message" rows="6"
+                      minlength="10" maxlength="600" required
+                      placeholder="Share questions, scheduling notes, or the kind of work you are hoping to do."></textarea>
+            <span id="message-help">Up to 600 characters.</span>
+          </p>
+
+          <p>
+            <input type="checkbox" id="newsletter" name="newsletter" value="yes">
+            <label for="newsletter">Add me to the monthly adoption newsletter</label>
+          </p>
+        </fieldset>
+
+        <p>
+          <button type="submit">Submit Interest Form</button>
+          <button type="reset">Clear Form</button>
+        </p>
+      </form>
+    </section>
+
+    <section>
+      <h2>Service Area</h2>
+      <p>
+        We place animals with adopters and fosters living within a 45 mile radius of
+        downtown Saint Paul. Placeholder text describing coverage goes here.
+      </p>
+      <ul>
+        <li>Ramsey County</li>
+        <li>Hennepin County</li>
+        <li>Dakota County</li>
+        <li>Washington County</li>
+        <li>Anoka County</li>
+        <li>Western Wisconsin communities within the same radius</li>
+      </ul>
+      <p>
+        Live outside these areas? Email us and we will connect you with a partner
+        rescue closer to home.
+      </p>
+    </section>
+
+    <section>
+      <h2>Office Hours</h2>
+      <ul>
+        <li>Monday: Closed to the public, phone and email only</li>
+        <li>Tuesday through Friday: 10:00 a.m. to 6:00 p.m.</li>
+        <li>Saturday: 9:00 a.m. to 4:00 p.m.</li>
+        <li>Sunday: Closed</li>
+      </ul>
+      <p>
+        Foster coordinators are reachable by phone seven days a week for animals
+        currently in our care.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <h2>Contact and Location</h2>
+    <p>Twin Cities Animal Rescue, 1420 Larkspur Avenue, Saint Paul, MN 55104</p>
+    <p>Phone: <a href="tel:+16515550142">651-555-0142</a></p>
+    <p>Email: <a href="mailto:hello@twincitiesanimalrescue.org">hello@twincitiesanimalrescue.org</a></p>
+    <p>Shelter hours: Tuesday through Saturday, 10:00 a.m. to 6:00 p.m.</p>
+    <p>Twin Cities Animal Rescue is a registered 501(c)(3) nonprofit organization.</p>
+  </footer>
+
+</body>
+</html>
