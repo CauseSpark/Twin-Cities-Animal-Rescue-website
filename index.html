@@ -5,29 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home | Twin Cities Animal Rescue</title>
   <meta name="description" content="Twin Cities Animal Rescue connects homeless pets with adopters, fosters, and volunteers across the metro area.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
-  <header>
-    <a href="index.html">
-      <img src="media/rescue-logo.png"
-           alt="Twin Cities Animal Rescue"
-           width="240" height="220">
-    </a>
-    <p>Every animal deserves a safe place to land.</p>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
-    <nav aria-label="Main navigation">
-      <ul>
-        <li><a href="index.html" aria-current="page">Home</a></li>
-        <li><a href="services.html">Our Programs</a></li>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="contact.html">Get Involved</a></li>
-      </ul>
-    </nav>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <img class="brand-logo" src="media/rescue-logo.png"
+             alt="Twin Cities Animal Rescue logo, a mint green line drawing of an animal face."
+             width="400" height="342">
+        <div>
+          <p class="brand-name">Twin Cities Animal Rescue</p>
+          <p class="brand-tagline">Every animal deserves a safe place to land.</p>
+        </div>
+      </div>
+
+      <nav class="site-nav" aria-label="Main navigation">
+        <ul>
+          <li><a href="index.html" aria-current="page">Home</a></li>
+          <li><a href="services.html">Our Programs</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Get Involved</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
 
-  <main>
-    <h1>Welcome to Twin Cities Animal Rescue</h1>
+  <main id="main-content">
+    <div class="page-title">
+      <h1>Welcome to Twin Cities Animal Rescue</h1>
+      <p class="page-intro">
+        We rescue, rehabilitate, and rehome animals across the Twin Cities metro,
+        and we need adopters, fosters, and volunteers to make it happen.
+      </p>
+      <p class="button-row">
+        <a class="button" href="contact.html">Get involved today</a>
+        <a class="button" href="services.html">See our programs</a>
+      </p>
+    </div>
 
     <section>
       <h2>Our Mission</h2>
@@ -39,32 +60,53 @@
         organization's founding commitment and daily work goes here.
       </p>
       <p>
-        Every animal who comes through our doors receives veterinary care, a
-        behavioral or handling assessment, and a foster home while they wait for
-        adoption. We place dogs, cats, and small animals such as rabbits and guinea
-        pigs. Placeholder text expanding on care standards goes here.
+        Every pet who comes through our doors receives veterinary care, behavioral
+        assessment, and a foster home while they wait for adoption. Placeholder text
+        expanding on care standards goes here.
       </p>
     </section>
 
     <section>
       <h2>Meet a Pet Waiting for a Home</h2>
-      <img src="media/rescue-pet-spotlight.png"
-           alt="A brown tabby cat with yellow-green eyes sitting outdoors, head tilted and ears turned toward the camera."
-           width="600" height="600">
-      <p>
-        This is Juniper, a four year old tabby who came to us as a stray and turned
-        out to be an unrepentant lap cat. Dozens of animals like her are in our care
-        right now. Placeholder text introducing current adoptable pets goes here.
-      </p>
+      <div class="media-block">
+        <img src="media/rescue-pet.jpg"
+             alt="A ginger guinea pig with a white stripe on its nose sitting on a smooth floor, facing the camera."
+             width="800" height="800">
+        <div class="media-text">
+          <h3>Clementine, adult guinea pig</h3>
+          <p>
+            Clementine came to us with three cage mates after a family move fell
+            through. She is calm with careful handling and would do best in a quiet
+            home. Placeholder text introducing current adoptable pets goes here.
+          </p>
+          <p>
+            Dozens of animals like Clementine are in our care right now, including
+            dogs, cats, and small pets. Placeholder text about the current roster
+            goes here. <a href="services.html">Read our adoption process</a>.
+          </p>
+        </div>
+      </div>
     </section>
 
     <section>
       <h2>Our Impact This Year</h2>
-      <ul>
-        <li>412 animals placed into permanent adoptive homes</li>
-        <li>168 active foster families across seven counties</li>
-        <li>1,940 volunteer hours contributed by community members</li>
-        <li>96 percent of intakes placed within 60 days</li>
+      <ul class="stat-list">
+        <li>
+          <span class="stat-number">412</span>
+          <span class="stat-label">animals placed into permanent adoptive homes</span>
+        </li>
+        <li>
+          <span class="stat-number">168</span>
+          <span class="stat-label">active foster families across seven counties</span>
+        </li>
+        <li>
+          <span class="stat-number">1,940</span>
+          <span class="stat-label">volunteer hours contributed by community members</span>
+        </li>
+        <li>
+          <span class="stat-number">96%</span>
+          <span class="stat-label">of intakes placed within 60 days</span>
+        </li>
       </ul>
       <p>
         These numbers represent real animals and real neighbors who made room for
@@ -74,7 +116,7 @@
 
     <section>
       <h2>A Message From Our Executive Director</h2>
-      <video controls width="640" preload="metadata">
+      <video controls width="640" preload="metadata" poster="media/rescue-message-poster.jpg">
         <source src="media/rescue-message.mp4" type="video/mp4">
         Your browser does not support embedded video. A written transcript of the
         director's message is available by emailing hello@twincitiesanimalrescue.org
@@ -88,62 +130,96 @@
     </section>
 
     <section>
-      <h2>Featured Story: Marcus and Bear</h2>
-      <picture>
-        <source media="(min-width: 768px)" srcset="media/rescue-feature-large.png">
-        <img src="media/rescue-feature-small.png"
-             alt="A smiling man in a wheelchair moving along a tree-lined park path beside a large Bernese mountain dog walking at his side."
-             width="600" height="600">
-      </picture>
-      <p>
-        Bear was surrendered at four years old because his previous owners could not
-        manage his size. Marcus had been waiting eight months for a calm, steady dog
-        who could keep pace beside a chair. Our matching process is about
-        temperament and daily routine, not about which animal has been waiting
-        longest. Placeholder text continuing the featured story goes here.
-      </p>
+      <h2>Featured Story: Bruno Finds His Person</h2>
+      <div class="media-block">
+        <picture>
+          <source media="(min-width: 768px)" srcset="media/rescue-feature-large.jpg">
+          <img src="media/rescue-feature-small.jpg"
+               alt="A man using a wheelchair smiles as he moves along a tree lined path beside Bruno, a large black, white, and tan Bernese mountain dog walking off leash."
+               width="800" height="800">
+        </picture>
+        <div class="media-text">
+          <p>
+            Bruno arrived underweight and wary of strangers after his previous owner
+            entered long term care. Eleven weeks in a foster home rebuilt his
+            confidence. Placeholder text continuing the featured story goes here.
+          </p>
+          <p>
+            He was adopted by Dale, a retired machinist who walks him through Como
+            Park every morning. Placeholder text about the match process goes here.
+          </p>
+        </div>
+      </div>
     </section>
 
     <section>
       <h2>How You Can Help</h2>
-
-      <h3>Adopt</h3>
       <p>
-        Open your home permanently to an animal who is ready for one. Placeholder
-        text about the adoption commitment goes here.
-        <a href="services.html">Read our adoption process</a>.
+        There is a role here for every schedule and every living situation. Pick the
+        one that fits your life right now.
       </p>
 
-      <h3>Foster</h3>
-      <p>
-        Provide temporary care while a pet recovers or waits for a match. We supply
-        food, supplies, and veterinary coverage. Placeholder text about foster
-        support goes here. <a href="services.html">Learn about fostering</a>.
-      </p>
+      <div class="card-grid">
+        <article class="card">
+          <h3>Adopt</h3>
+          <p>
+            Open your home permanently to an animal who is ready for one. Placeholder
+            text about the adoption commitment goes here.
+          </p>
+          <p class="card-link"><a href="services.html">Read our adoption process</a></p>
+        </article>
 
-      <h3>Volunteer</h3>
-      <p>
-        Walk dogs, staff adoption events, drive transports, or help with intake
-        paperwork. Placeholder text about volunteer shifts goes here.
-        <a href="contact.html">Tell us how you'd like to help</a>.
-      </p>
+        <article class="card">
+          <h3>Foster</h3>
+          <p>
+            Provide temporary care while a pet recovers or waits for a match. We
+            supply food, supplies, and veterinary coverage. Placeholder text about
+            foster support goes here.
+          </p>
+          <p class="card-link"><a href="services.html">Learn about fostering</a></p>
+        </article>
 
-      <h3>Partner With Us</h3>
-      <p>
-        Local businesses and community groups host supply drives and sponsor medical
-        care. Placeholder text about partnerships goes here.
-        <a href="about.html">See our current partners</a>.
-      </p>
+        <article class="card">
+          <h3>Volunteer</h3>
+          <p>
+            Walk dogs, staff adoption events, drive transports, or help with intake
+            paperwork. Placeholder text about volunteer shifts goes here.
+          </p>
+          <p class="card-link"><a href="contact.html">Tell us how you'd like to help</a></p>
+        </article>
+
+        <article class="card">
+          <h3>Partner With Us</h3>
+          <p>
+            Local businesses and community groups host supply drives and sponsor
+            medical care. Placeholder text about partnerships goes here.
+          </p>
+          <p class="card-link"><a href="about.html">See our current partners</a></p>
+        </article>
+      </div>
     </section>
   </main>
 
-  <footer>
-    <h2>Contact and Location</h2>
-    <p>Twin Cities Animal Rescue, 1420 Larkspur Avenue, Saint Paul, MN 55104</p>
-    <p>Phone: <a href="tel:+16515550142">651-555-0142</a></p>
-    <p>Email: <a href="mailto:hello@twincitiesanimalrescue.org">hello@twincitiesanimalrescue.org</a></p>
-    <p>Shelter hours: Tuesday through Saturday, 10:00 a.m. to 6:00 p.m.</p>
-    <p>Twin Cities Animal Rescue is a registered 501(c)(3) nonprofit organization.</p>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <h2>Contact and Location</h2>
+        <p>Twin Cities Animal Rescue<br>1420 Larkspur Avenue<br>Saint Paul, MN 55104</p>
+        <p>Phone: <a href="tel:+16515550142">651-555-0142</a></p>
+        <p>Email: <a href="mailto:hello@twincitiesanimalrescue.org">hello@twincitiesanimalrescue.org</a></p>
+      </div>
+
+      <div>
+        <h2>Visit Us</h2>
+        <p>Shelter hours: Tuesday through Saturday, 10:00 a.m. to 6:00 p.m.</p>
+        <p>Foster coordinators are reachable by phone seven days a week.</p>
+        <p><a href="contact.html">Send us an interest form</a></p>
+      </div>
+    </div>
+
+    <p class="footer-legal">
+      Twin Cities Animal Rescue is a registered 501(c)(3) nonprofit organization.
+    </p>
   </footer>
 
 </body>

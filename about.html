@@ -5,29 +5,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About Us | Twin Cities Animal Rescue</title>
   <meta name="description" content="The story, values, and community partners behind Twin Cities Animal Rescue.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
-  <header>
-    <a href="index.html">
-      <img src="media/rescue-logo.png"
-           alt="Twin Cities Animal Rescue"
-           width="240" height="220">
-    </a>
-    <p>Every animal deserves a safe place to land.</p>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
-    <nav aria-label="Main navigation">
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="services.html">Our Programs</a></li>
-        <li><a href="about.html" aria-current="page">About Us</a></li>
-        <li><a href="contact.html">Get Involved</a></li>
-      </ul>
-    </nav>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <img class="brand-logo" src="media/rescue-logo.png"
+             alt="Twin Cities Animal Rescue logo, a mint green line drawing of an animal face."
+             width="400" height="342">
+        <div>
+          <p class="brand-name">Twin Cities Animal Rescue</p>
+          <p class="brand-tagline">Every animal deserves a safe place to land.</p>
+        </div>
+      </div>
+
+      <nav class="site-nav" aria-label="Main navigation">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="services.html">Our Programs</a></li>
+          <li><a href="about.html" aria-current="page">About Us</a></li>
+          <li><a href="contact.html">Get Involved</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
 
-  <main>
-    <h1>About Twin Cities Animal Rescue</h1>
+  <main id="main-content">
+    <div class="page-title">
+      <h1>About Twin Cities Animal Rescue</h1>
+      <p class="page-intro">
+        Sixteen years of pulling animals out of hard situations, run by a small staff
+        and a very large community.
+      </p>
+    </div>
 
     <section>
       <h2>Our Story</h2>
@@ -37,9 +54,9 @@
         Placeholder text describing the early years goes here.
       </p>
       <p>
-        We opened our Larkspur Avenue intake center in 2016 and now work with eleven
-        partner shelters across Minnesota and western Wisconsin. Placeholder text
-        describing growth and current operations goes here.
+        We opened our Larkspur Avenue intake center in 2016 and now work with
+        eleven partner shelters across Minnesota and western Wisconsin. Placeholder
+        text describing growth and current operations goes here.
       </p>
       <p>
         We remain a small organization by design. Six paid staff members coordinate
@@ -51,14 +68,13 @@
     <section>
       <h2>Pet Spotlight</h2>
       <figure>
-        <img src="media/rescue-pet.png"
-             alt="A ginger guinea pig with a white stripe down its forehead sitting on a pale floor, whiskers fanned out, facing the camera."
-             width="600" height="600">
+        <img src="media/rescue-pet-spotlight.jpg"
+             alt="Marisol, a brown and black striped tabby cat with green and amber eyes, sitting alert outdoors and looking toward the camera."
+             width="800" height="800">
         <figcaption>
-          Clementine came to us when her family moved into housing that did not allow
-          pets. Small animals are the ones most often overlooked at intake, so we run
-          a dedicated small-animal foster network. She was adopted in April by a
-          household that already had two guinea pigs and room for a third.
+          Marisol spent nine months in our care after a hoarding case intake. She was
+          adopted in March by a retired teacher in Highland Park and now supervises
+          the back garden from the top of the fence.
         </figcaption>
       </figure>
     </section>
@@ -66,30 +82,40 @@
     <section>
       <h2>Our Core Values</h2>
 
-      <h3>Transparency</h3>
-      <p>
-        We publish intake numbers, outcomes, and financials every quarter, including
-        the outcomes we wish were different. Placeholder text goes here.
-      </p>
+      <div class="card-grid">
+        <article class="card">
+          <h3>Transparency</h3>
+          <p>
+            We publish intake numbers, outcomes, and financials every quarter,
+            including the outcomes we wish were different. Placeholder text goes here.
+          </p>
+        </article>
 
-      <h3>Compassion Without Judgment</h3>
-      <p>
-        People surrender animals for reasons that are usually about hardship, not
-        neglect. We meet owners where they are. Placeholder text goes here.
-      </p>
+        <article class="card">
+          <h3>Compassion Without Judgment</h3>
+          <p>
+            People surrender animals for reasons that are usually about hardship, not
+            neglect. We meet owners where they are. Placeholder text goes here.
+          </p>
+        </article>
 
-      <h3>Community First</h3>
-      <p>
-        We keep animals in the communities they came from whenever possible, and we
-        run a pet food shelf so families can stay together. Placeholder text goes
-        here.
-      </p>
+        <article class="card">
+          <h3>Community First</h3>
+          <p>
+            We keep animals in the communities they came from whenever possible, and
+            we run a pet food shelf so families can stay together. Placeholder text
+            goes here.
+          </p>
+        </article>
 
-      <h3>Follow Through</h3>
-      <p>
-        Every adopter hears from us at thirty days, six months, and one year. Our
-        return policy has no expiration date. Placeholder text goes here.
-      </p>
+        <article class="card">
+          <h3>Follow Through</h3>
+          <p>
+            Every adopter hears from us at thirty days, six months, and one year. Our
+            return policy has no expiration date. Placeholder text goes here.
+          </p>
+        </article>
+      </div>
     </section>
 
     <section>
@@ -105,20 +131,32 @@
         <li>Saint Paul Parks and Recreation, event space for adoption weekends</li>
         <li>Hamline Student Volunteer Corps, weekend animal care shifts</li>
       </ul>
-      <p>
-        Interested in partnering with us?
-        <a href="contact.html">Get in touch through our interest form</a>.
+      <p class="button-row">
+        <a class="button" href="contact.html">Partner with us</a>
       </p>
     </section>
   </main>
 
-  <footer>
-    <h2>Contact and Location</h2>
-    <p>Twin Cities Animal Rescue, 1420 Larkspur Avenue, Saint Paul, MN 55104</p>
-    <p>Phone: <a href="tel:+16515550142">651-555-0142</a></p>
-    <p>Email: <a href="mailto:hello@twincitiesanimalrescue.org">hello@twincitiesanimalrescue.org</a></p>
-    <p>Shelter hours: Tuesday through Saturday, 10:00 a.m. to 6:00 p.m.</p>
-    <p>Twin Cities Animal Rescue is a registered 501(c)(3) nonprofit organization.</p>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <h2>Contact and Location</h2>
+        <p>Twin Cities Animal Rescue<br>1420 Larkspur Avenue<br>Saint Paul, MN 55104</p>
+        <p>Phone: <a href="tel:+16515550142">651-555-0142</a></p>
+        <p>Email: <a href="mailto:hello@twincitiesanimalrescue.org">hello@twincitiesanimalrescue.org</a></p>
+      </div>
+
+      <div>
+        <h2>Visit Us</h2>
+        <p>Shelter hours: Tuesday through Saturday, 10:00 a.m. to 6:00 p.m.</p>
+        <p>Foster coordinators are reachable by phone seven days a week.</p>
+        <p><a href="contact.html">Send us an interest form</a></p>
+      </div>
+    </div>
+
+    <p class="footer-legal">
+      Twin Cities Animal Rescue is a registered 501(c)(3) nonprofit organization.
+    </p>
   </footer>
 
 </body>
