@@ -77,14 +77,74 @@
           <p>
             Clementine came to us with three cage mates after a family move fell
             through. She is calm with careful handling and would do best in a quiet
-            home. Placeholder text introducing current adoptable pets goes here.
+            home. She is adopted together with her cage mate Biscuit.
           </p>
           <p>
             Dozens of animals like Clementine are in our care right now, including
-            dogs, cats, and small pets. Placeholder text about the current roster
-            goes here. <a href="services.html">Read our adoption process</a>.
+            dogs, cats, and small pets. Use the finder below to see who is
+            available. <a href="services.html">Read our adoption process</a>.
           </p>
         </div>
+      </div>
+    </section>
+
+    <!-- Interactive feature: filter the animals in our care and keep a shortlist -->
+    <section id="pet-finder">
+      <h2>Animals Waiting for Homes <span class="saved-badge">Saved: <span id="saved-count">0</span></span></h2>
+      <p>
+        Narrow the list to the animals that fit your household, then save the ones
+        you want to ask about. Your list stays here if you leave and come back.
+      </p>
+
+      <form id="pet-filters" class="pet-filters">
+        <div class="filter-row">
+          <p>
+            <label for="filter-species">Type of animal</label>
+            <select id="filter-species" name="filter-species">
+              <option value="all">All animals</option>
+              <option value="dog">Dogs</option>
+              <option value="cat">Cats</option>
+              <option value="small">Small pets</option>
+            </select>
+          </p>
+
+          <p>
+            <label for="filter-age">Age</label>
+            <select id="filter-age" name="filter-age">
+              <option value="all">Any age</option>
+              <option value="young">Under 1 year</option>
+              <option value="adult">Adult</option>
+              <option value="senior">Senior</option>
+            </select>
+          </p>
+        </div>
+
+        <p class="choice">
+          <input type="checkbox" id="filter-kids" name="filter-kids">
+          <label for="filter-kids">Only show animals known to be good with children</label>
+        </p>
+
+        <p>
+          <button type="button" id="filter-reset" class="button-quiet">Clear filters</button>
+        </p>
+      </form>
+
+      <p id="pet-count" class="pet-count" role="status" aria-live="polite">
+        Showing all animals.
+      </p>
+
+      <div id="pet-results" class="pet-results">
+        <noscript>
+          <p>
+            The animal finder needs JavaScript. Call us at 651-555-0142 and we will
+            walk you through who is currently available.
+          </p>
+        </noscript>
+      </div>
+
+      <div class="saved-panel">
+        <h3>My saved list</h3>
+        <div id="saved-list"></div>
       </div>
     </section>
 
@@ -222,5 +282,7 @@
     </p>
   </footer>
 
+  <script src="js/storage.js"></script>
+  <script src="js/pet-finder.js"></script>
 </body>
 </html>
