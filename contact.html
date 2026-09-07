@@ -51,7 +51,10 @@
       <h2>Volunteer, Foster, and Adoption Interest Form</h2>
       <p class="required-note">Fields marked with an asterisk (*) are required.</p>
 
-      <form action="/submit-interest" method="post">
+      <div id="saved-pets-notice" class="saved-pets-notice" hidden></div>
+      <p id="form-summary" class="form-summary" role="alert" hidden></p>
+
+      <form id="interest-form" action="/submit-interest" method="post">
 
         <fieldset>
           <legend>Your Contact Information</legend>
@@ -62,6 +65,7 @@
               <input type="text" id="full-name" name="full-name"
                      autocomplete="name" minlength="2" maxlength="60"
                      placeholder="Jordan Ramirez" required>
+              <span class="field-error" id="error-full-name" role="alert"></span>
             </p>
 
             <p>
@@ -69,6 +73,7 @@
               <input type="email" id="email" name="email"
                      autocomplete="email" maxlength="80"
                      placeholder="jordan@example.com" required>
+              <span class="field-error" id="error-email" role="alert"></span>
             </p>
           </div>
 
@@ -79,6 +84,7 @@
                      autocomplete="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                      placeholder="651-555-0142" aria-describedby="phone-help">
               <span class="field-help" id="phone-help">Format: 651-555-0142</span>
+              <span class="field-error" id="error-phone" role="alert"></span>
             </p>
 
             <p>
@@ -87,12 +93,14 @@
                      autocomplete="postal-code" pattern="[0-9]{5}"
                      maxlength="5" placeholder="55104" aria-describedby="zip-help" required>
               <span class="field-help" id="zip-help">We use this to confirm you are inside our service area.</span>
+              <span class="field-error" id="error-zip" role="alert"></span>
             </p>
           </div>
         </fieldset>
 
         <fieldset>
           <legend>How would you like to help? *</legend>
+          <span class="field-error" id="error-interest-type" role="alert"></span>
 
           <p class="choice">
             <input type="radio" id="interest-volunteer" name="interest-type"
@@ -124,12 +132,14 @@
               <label for="start-date">Earliest date you could start *</label>
               <input type="date" id="start-date" name="start-date"
                      min="2026-09-06" required>
+              <span class="field-error" id="error-start-date" role="alert"></span>
             </p>
 
             <p>
               <label for="hours-per-month">Hours you can offer each month</label>
               <input type="number" id="hours-per-month" name="hours-per-month"
                      min="1" max="80" step="1" placeholder="8">
+              <span class="field-error" id="error-hours-per-month" role="alert"></span>
             </p>
           </div>
 
@@ -171,6 +181,7 @@
                 <option value="foster">Previous foster or shelter volunteer</option>
                 <option value="professional">Professional animal care or veterinary background</option>
               </select>
+              <span class="field-error" id="error-experience-level" role="alert"></span>
             </p>
 
             <p>
@@ -202,6 +213,7 @@
                       aria-describedby="message-help"
                       placeholder="Share questions, scheduling notes, or the kind of work you are hoping to do."></textarea>
             <span class="field-help" id="message-help">Up to 600 characters.</span>
+              <span class="field-error" id="error-message" role="alert"></span>
           </p>
 
           <p class="choice">
@@ -212,7 +224,7 @@
 
         <p class="button-row">
           <button type="submit">Submit Interest Form</button>
-          <button type="reset">Clear Form</button>
+          <button type="reset" id="clear-form">Clear Form</button>
         </p>
       </form>
     </section>
@@ -274,5 +286,8 @@
     </p>
   </footer>
 
+  <script src="js/storage.js"></script>
+  <script src="js/pet-finder.js"></script>
+  <script src="js/form-validation.js"></script>
 </body>
 </html>
