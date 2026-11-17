@@ -141,7 +141,7 @@ Contributions are welcome: bug fixes, design improvements, accessibility enhance
 
 ## License
 
-This project is open source. Feel free to use, modify, and adapt it for your animal rescue organization.
+This project is released under the [MIT License](LICENSE) © 2026 Peyton Seay. Feel free to use, modify, and adapt it for your animal rescue organization.
 
 ---
 
