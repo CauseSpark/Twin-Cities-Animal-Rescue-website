@@ -22,7 +22,6 @@ const PETS = [
     id: 'willa',
     name: 'Willa',
     species: 'cat',
-    speciesLabel: 'Cat',
     age: 'adult',
     ageLabel: '3 years',
     goodWithKids: true,
@@ -33,7 +32,6 @@ const PETS = [
     id: 'gus',
     name: 'Gus',
     species: 'dog',
-    speciesLabel: 'Dog',
     age: 'senior',
     ageLabel: '9 years',
     goodWithKids: true,
@@ -44,7 +42,6 @@ const PETS = [
     id: 'pepper',
     name: 'Pepper',
     species: 'dog',
-    speciesLabel: 'Dog',
     age: 'young',
     ageLabel: '7 months',
     goodWithKids: true,
@@ -55,7 +52,6 @@ const PETS = [
     id: 'clementine',
     name: 'Clementine',
     species: 'small',
-    speciesLabel: 'Small pet',
     age: 'adult',
     ageLabel: '2 years',
     goodWithKids: true,
@@ -66,7 +62,6 @@ const PETS = [
     id: 'otis',
     name: 'Otis',
     species: 'cat',
-    speciesLabel: 'Cat',
     age: 'young',
     ageLabel: '5 months',
     goodWithKids: false,
@@ -77,7 +72,6 @@ const PETS = [
     id: 'maple',
     name: 'Maple',
     species: 'dog',
-    speciesLabel: 'Dog',
     age: 'adult',
     ageLabel: '5 years',
     goodWithKids: false,
@@ -88,7 +82,6 @@ const PETS = [
     id: 'biscuit',
     name: 'Biscuit',
     species: 'small',
-    speciesLabel: 'Small pet',
     age: 'adult',
     ageLabel: '2 years',
     goodWithKids: true,
@@ -99,7 +92,6 @@ const PETS = [
     id: 'nova',
     name: 'Nova',
     species: 'cat',
-    speciesLabel: 'Cat',
     age: 'adult',
     ageLabel: '4 years',
     goodWithKids: true,
@@ -108,13 +100,15 @@ const PETS = [
   }
 ];
 
+/* What to call each species on screen. */
+const SPECIES_LABELS = { cat: 'Cat', dog: 'Dog', small: 'Small pet' };
+
+/* The filter choices a first-time visitor starts with. */
+const DEFAULT_FILTERS = { species: 'all', age: 'all', goodWithKidsOnly: false };
+
 /* OBJECT holding the current filter choices. Reading and writing one object
    keeps the three controls in sync and makes the whole state easy to store. */
-let filterState = {
-  species: 'all',
-  age: 'all',
-  goodWithKidsOnly: false
-};
+let filterState = { ...DEFAULT_FILTERS };
 
 /* ARRAY of the pet ids the visitor has shortlisted. */
 let savedPetIds = [];
@@ -140,40 +134,27 @@ function loadSavedState() {
   }
 }
 
-/** Write the shortlist back to localStorage. */
-function persistSavedPets() {
-  saveToStorage(STORAGE_KEYS.savedPets, savedPetIds);
-}
-
-/** Write the filter choices back to localStorage. */
-function persistFilters() {
-  saveToStorage(STORAGE_KEYS.petFilters, filterState);
-}
-
 /* --------------------------------------------------------------------------
    3. Small helpers
    -------------------------------------------------------------------------- */
 
-/** Look one animal up by id. */
-function findPetById(petId) {
-  return PETS.find(function (pet) {
-    return pet.id === petId;
-  });
-}
-
-/** Is this animal on the shortlist right now? */
-function isPetSaved(petId) {
-  return savedPetIds.indexOf(petId) !== -1;
-}
-
 /** Apply every active filter and hand back the animals that survive. */
 function getFilteredPets() {
-  return PETS.filter(function (pet) {
+  return PETS.filter((pet) => {
     const speciesMatches = filterState.species === 'all' || pet.species === filterState.species;
     const ageMatches = filterState.age === 'all' || pet.age === filterState.age;
     const kidsMatches = !filterState.goodWithKidsOnly || pet.goodWithKids === true;
     return speciesMatches && ageMatches && kidsMatches;
   });
+}
+
+/** The three filter controls, looked up in one place. */
+function getFilterControls() {
+  return {
+    species: document.getElementById('filter-species'),
+    age: document.getElementById('filter-age'),
+    kids: document.getElementById('filter-kids')
+  };
 }
 
 /* --------------------------------------------------------------------------
@@ -186,18 +167,15 @@ function createPetCard(pet) {
   card.className = 'pet-card';
   card.dataset.petId = pet.id;
 
-  const saved = isPetSaved(pet.id);
-
-  const traitTags = pet.traits.map(function (trait) {
-    return '<li class="pet-tag">' + trait + '</li>';
-  }).join('');
+  const saved = savedPetIds.includes(pet.id);
+  const traitTags = pet.traits.map((trait) => '<li class="pet-tag">' + trait + '</li>').join('');
 
   card.innerHTML =
     '<div class="pet-card-head">' +
       '<span class="pet-avatar pet-avatar-' + pet.species + '" aria-hidden="true">' + pet.name.charAt(0) + '</span>' +
       '<div>' +
         '<h3 class="pet-name">' + pet.name + '</h3>' +
-        '<p class="pet-meta">' + pet.speciesLabel + ' &middot; ' + pet.ageLabel + '</p>' +
+        '<p class="pet-meta">' + SPECIES_LABELS[pet.species] + ' &middot; ' + pet.ageLabel + '</p>' +
       '</div>' +
     '</div>' +
     '<p class="pet-summary">' + pet.summary + '</p>' +
@@ -232,9 +210,7 @@ function renderPetGrid() {
 
   countLine.textContent = 'Showing ' + matches.length + ' of ' + PETS.length + ' animals.';
 
-  matches.forEach(function (pet) {
-    grid.appendChild(createPetCard(pet));
-  });
+  matches.forEach((pet) => grid.appendChild(createPetCard(pet)));
 }
 
 /** Redraw the shortlist panel and the count in the section heading. */
@@ -254,13 +230,13 @@ function renderSavedList() {
     return;
   }
 
-  const items = savedPetIds.map(function (petId) {
-    const pet = findPetById(petId);
+  const items = savedPetIds.map((petId) => {
+    const pet = PETS.find((candidate) => candidate.id === petId);
     if (!pet) {
       return '';
     }
     return '<li class="saved-item">' +
-             '<span>' + pet.name + ' <span class="saved-item-meta">' + pet.speciesLabel + '</span></span>' +
+             '<span>' + pet.name + ' <span class="saved-item-meta">' + SPECIES_LABELS[pet.species] + '</span></span>' +
              '<button type="button" class="saved-remove" data-pet-id="' + pet.id + '">' +
                'Remove<span class="visually-hidden"> ' + pet.name + ' from my list</span>' +
              '</button>' +
@@ -288,41 +264,37 @@ function toggleSavedPet(petId) {
     savedPetIds.splice(position, 1);
   }
 
-  persistSavedPets();
+  saveToStorage(STORAGE_KEYS.savedPets, savedPetIds);
   renderPetGrid();
   renderSavedList();
 }
 
 /** Read the three controls into filterState, store it, and redraw. */
 function handleFilterChange() {
-  const speciesControl = document.getElementById('filter-species');
-  const ageControl = document.getElementById('filter-age');
-  const kidsControl = document.getElementById('filter-kids');
+  const controls = getFilterControls();
 
   filterState = {
-    species: speciesControl ? speciesControl.value : 'all',
-    age: ageControl ? ageControl.value : 'all',
-    goodWithKidsOnly: kidsControl ? kidsControl.checked : false
+    species: controls.species ? controls.species.value : 'all',
+    age: controls.age ? controls.age.value : 'all',
+    goodWithKidsOnly: controls.kids ? controls.kids.checked : false
   };
 
-  persistFilters();
+  saveToStorage(STORAGE_KEYS.petFilters, filterState);
   renderPetGrid();
 }
 
 /** Put the restored filter values back onto the controls themselves. */
 function applyFilterStateToControls() {
-  const speciesControl = document.getElementById('filter-species');
-  const ageControl = document.getElementById('filter-age');
-  const kidsControl = document.getElementById('filter-kids');
+  const controls = getFilterControls();
 
-  if (speciesControl) {
-    speciesControl.value = filterState.species;
+  if (controls.species) {
+    controls.species.value = filterState.species;
   }
-  if (ageControl) {
-    ageControl.value = filterState.age;
+  if (controls.age) {
+    controls.age.value = filterState.age;
   }
-  if (kidsControl) {
-    kidsControl.checked = filterState.goodWithKidsOnly;
+  if (controls.kids) {
+    controls.kids.checked = filterState.goodWithKidsOnly;
   }
 }
 
@@ -345,42 +317,34 @@ function initPetFinder() {
   const filterForm = document.getElementById('pet-filters');
   if (filterForm) {
     filterForm.addEventListener('change', handleFilterChange);
-    filterForm.addEventListener('submit', function (event) {
-      event.preventDefault(); // filtering is live, so there is nothing to submit
-    });
+    // Filtering is live, so there is nothing to submit.
+    filterForm.addEventListener('submit', (event) => event.preventDefault());
   }
 
   const resetButton = document.getElementById('filter-reset');
   if (resetButton) {
-    resetButton.addEventListener('click', function () {
-      filterState = { species: 'all', age: 'all', goodWithKidsOnly: false };
+    resetButton.addEventListener('click', () => {
+      filterState = { ...DEFAULT_FILTERS };
       applyFilterStateToControls();
-      persistFilters();
+      saveToStorage(STORAGE_KEYS.petFilters, filterState);
       renderPetGrid();
     });
   }
 
   /* Cards are rebuilt constantly, so listen on the containers that stay put
-     rather than on buttons that get thrown away and recreated. */
-  const grid = document.getElementById('pet-results');
-  if (grid) {
-    grid.addEventListener('click', function (event) {
-      const button = event.target.closest('.pet-save-button');
-      if (button) {
-        toggleSavedPet(button.dataset.petId);
-      }
-    });
-  }
-
-  const savedPanel = document.getElementById('saved-list');
-  if (savedPanel) {
-    savedPanel.addEventListener('click', function (event) {
-      const button = event.target.closest('.saved-remove');
-      if (button) {
-        toggleSavedPet(button.dataset.petId);
-      }
-    });
-  }
+     rather than on buttons that get thrown away and recreated. The save
+     button in the grid and the remove button in the shortlist both toggle. */
+  [['pet-results', '.pet-save-button'], ['saved-list', '.saved-remove']].forEach(([containerId, buttonSelector]) => {
+    const container = document.getElementById(containerId);
+    if (container) {
+      container.addEventListener('click', (event) => {
+        const button = event.target.closest(buttonSelector);
+        if (button) {
+          toggleSavedPet(button.dataset.petId);
+        }
+      });
+    }
+  });
 }
 
 document.addEventListener('DOMContentLoaded', initPetFinder);
