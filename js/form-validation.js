@@ -15,104 +15,89 @@
    -------------------------------------------------------------------------- */
 
 /* OBJECT of validation rules, keyed by the field's id. Each entry knows how
-   to test a value and what to say when the test fails, so adding a new
-   checked field means adding one entry here rather than editing the
-   submit handler. */
+   to test a value (already trimmed) and what to say when the test fails, so
+   adding a new checked field means adding one entry here rather than editing
+   the submit handler. Optional fields pass when left blank. */
 const VALIDATION_RULES = {
   'full-name': {
     required: true,
-    test: function (value) {
-      return value.trim().length >= 2;
-    },
+    test: (value) => value.length >= 2,
     message: 'Enter your full name, at least 2 characters.'
   },
   'email': {
     required: true,
-    test: function (value) {
-      // something@something.something, with no spaces
-      return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value.trim());
-    },
+    test: (value) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value), // something@something.something, no spaces
     message: 'Enter an email address in the format name@example.com.'
   },
   'phone': {
-    required: false, // optional, but checked when it has been filled in
-    test: function (value) {
-      return value.trim() === '' || /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/.test(value.trim());
-    },
+    required: false,
+    test: (value) => value === '' || /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/.test(value),
     message: 'Use the format 651-555-0142, or leave this blank.'
   },
   'zip': {
     required: true,
-    test: function (value) {
-      return /^[0-9]{5}$/.test(value.trim());
-    },
+    test: (value) => /^[0-9]{5}$/.test(value),
     message: 'Enter a 5 digit ZIP code so we can check our service area.'
   },
   'start-date': {
     required: true,
-    test: function (value) {
-      return value.trim() !== '';
-    },
+    test: (value) => value !== '',
     message: 'Choose the earliest date you could start.'
   },
   'hours-per-month': {
     required: false,
-    test: function (value) {
-      if (value.trim() === '') {
-        return true;
-      }
-      const hours = Number(value);
-      return Number.isFinite(hours) && hours >= 1 && hours <= 80;
-    },
+    test: (value) => value === '' || (Number.isFinite(Number(value)) && Number(value) >= 1 && Number(value) <= 80),
     message: 'Enter a number of hours between 1 and 80.'
   },
   'experience-level': {
     required: true,
-    test: function (value) {
-      return value !== '';
-    },
+    test: (value) => value !== '',
     message: 'Choose the option that best describes your experience.'
   },
   'message': {
     required: true,
-    test: function (value) {
-      const length = value.trim().length;
-      return length >= 10 && length <= 600;
-    },
+    test: (value) => value.length >= 10 && value.length <= 600,
     message: 'Tell us a little more, between 10 and 600 characters.'
   }
 };
+
+/* The radio group is a set rather than one input, so it is found by name. */
+const INTEREST_RADIOS = 'input[name="interest-type"]';
 
 /* --------------------------------------------------------------------------
    2. Showing and clearing messages
    -------------------------------------------------------------------------- */
 
-/** Put an error message in the span that sits directly under a field. */
-function showFieldError(fieldId, messageText) {
+/**
+ * Put an error message in the span that sits directly under a field and mark
+ * the field as invalid. An empty message clears both again.
+ */
+function setFieldError(fieldId, messageText = '') {
   const field = document.getElementById(fieldId);
   const errorSpan = document.getElementById('error-' + fieldId);
 
   if (field) {
-    field.setAttribute('aria-invalid', 'true');
-    field.classList.add('has-error');
+    field.classList.toggle('has-error', messageText !== '');
+    if (messageText) {
+      field.setAttribute('aria-invalid', 'true');
+    } else {
+      field.removeAttribute('aria-invalid');
+    }
   }
   if (errorSpan) {
     errorSpan.textContent = messageText;
   }
 }
 
-/** Take the error message and the red state back off a field. */
-function clearFieldError(fieldId) {
-  const field = document.getElementById(fieldId);
-  const errorSpan = document.getElementById('error-' + fieldId);
-
-  if (field) {
-    field.removeAttribute('aria-invalid');
-    field.classList.remove('has-error');
+/** Show the banner above the form as an 'error' or a 'success'. */
+function showSummary(kind, messageText) {
+  const summary = document.getElementById('form-summary');
+  if (summary) {
+    summary.className = 'form-summary form-summary-' + kind;
+    summary.textContent = messageText;
+    summary.hidden = false;
   }
-  if (errorSpan) {
-    errorSpan.textContent = '';
-  }
+  return summary;
 }
 
 /* --------------------------------------------------------------------------
@@ -123,43 +108,27 @@ function clearFieldError(fieldId) {
 function validateField(fieldId) {
   const rule = VALIDATION_RULES[fieldId];
   const field = document.getElementById(fieldId);
-
   if (!rule || !field) {
     return true;
   }
 
-  const value = field.value;
-
-  if (rule.required && value.trim() === '') {
-    showFieldError(fieldId, 'This field is required.');
-    return false;
+  const value = field.value.trim();
+  let problem = '';
+  if (rule.required && value === '') {
+    problem = 'This field is required.';
+  } else if (!rule.test(value)) {
+    problem = rule.message;
   }
 
-  if (!rule.test(value)) {
-    showFieldError(fieldId, rule.message);
-    return false;
-  }
-
-  clearFieldError(fieldId);
-  return true;
+  setFieldError(fieldId, problem);
+  return problem === '';
 }
 
-/** The radio group is checked on its own, since it is a set rather than one input. */
+/** Check that one of the radio buttons has been chosen. */
 function validateInterestChoice() {
-  const chosen = document.querySelector('input[name="interest-type"]:checked');
-  const errorSpan = document.getElementById('error-interest-type');
-
-  if (!chosen) {
-    if (errorSpan) {
-      errorSpan.textContent = 'Choose the option that matches how you want to help.';
-    }
-    return false;
-  }
-
-  if (errorSpan) {
-    errorSpan.textContent = '';
-  }
-  return true;
+  const chosen = document.querySelector(INTEREST_RADIOS + ':checked');
+  setFieldError('interest-type', chosen ? '' : 'Choose the option that matches how you want to help.');
+  return chosen !== null;
 }
 
 /**
@@ -168,18 +137,10 @@ function validateInterestChoice() {
  * problems and jump to the first one.
  */
 function validateForm() {
-  const failedFields = [];
-
-  Object.keys(VALIDATION_RULES).forEach(function (fieldId) {
-    if (!validateField(fieldId)) {
-      failedFields.push(fieldId);
-    }
-  });
-
+  const failedFields = Object.keys(VALIDATION_RULES).filter((fieldId) => !validateField(fieldId));
   if (!validateInterestChoice()) {
     failedFields.push('interest-volunteer');
   }
-
   return failedFields;
 }
 
@@ -199,14 +160,14 @@ const DRAFT_FIELD_IDS = [
 function saveFormDraft() {
   const draft = {};
 
-  DRAFT_FIELD_IDS.forEach(function (fieldId) {
+  DRAFT_FIELD_IDS.forEach((fieldId) => {
     const field = document.getElementById(fieldId);
     if (field && field.value.trim() !== '') {
       draft[fieldId] = field.value;
     }
   });
 
-  const chosenInterest = document.querySelector('input[name="interest-type"]:checked');
+  const chosenInterest = document.querySelector(INTEREST_RADIOS + ':checked');
   if (chosenInterest) {
     draft.interestType = chosenInterest.value;
   }
@@ -218,28 +179,22 @@ function saveFormDraft() {
 function restoreFormDraft() {
   const draft = loadFromStorage(STORAGE_KEYS.formDraft, null);
   if (!draft || typeof draft !== 'object') {
-    return false;
+    return;
   }
 
-  let restoredAnything = false;
-
-  DRAFT_FIELD_IDS.forEach(function (fieldId) {
+  DRAFT_FIELD_IDS.forEach((fieldId) => {
     const field = document.getElementById(fieldId);
     if (field && typeof draft[fieldId] === 'string') {
       field.value = draft[fieldId];
-      restoredAnything = true;
     }
   });
 
   if (draft.interestType) {
-    const radio = document.querySelector('input[name="interest-type"][value="' + draft.interestType + '"]');
+    const radio = document.querySelector(INTEREST_RADIOS + '[value="' + draft.interestType + '"]');
     if (radio) {
       radio.checked = true;
-      restoredAnything = true;
     }
   }
-
-  return restoredAnything;
 }
 
 /* --------------------------------------------------------------------------
@@ -265,16 +220,10 @@ function applySavedPetsToForm() {
 
   /* PETS comes from pet-finder.js. Fall back to the raw ids if that file is
      not on the page for some reason. */
-  const names = storedIds.map(function (petId) {
-    if (typeof PETS === 'undefined') {
-      return petId;
-    }
-    const match = PETS.find(function (pet) {
-      return pet.id === petId;
-    });
+  const names = storedIds.map((petId) => {
+    const match = typeof PETS === 'undefined' ? null : PETS.find((pet) => pet.id === petId);
     return match ? match.name : petId;
   });
-
   const nameList = names.join(', ');
 
   noticeBox.hidden = false;
@@ -287,7 +236,7 @@ function applySavedPetsToForm() {
   if (messageField && messageField.value.trim() === '') {
     messageField.value = 'I would like to hear more about ' + nameList + '.';
     const adoptionRadio = document.getElementById('interest-adoption');
-    if (adoptionRadio && !document.querySelector('input[name="interest-type"]:checked')) {
+    if (adoptionRadio && !document.querySelector(INTEREST_RADIOS + ':checked')) {
       adoptionRadio.checked = true;
     }
   }
@@ -301,16 +250,10 @@ function handleSubmit(event) {
   event.preventDefault(); // this demo site has no server to post to
 
   const failedFields = validateForm();
-  const summary = document.getElementById('form-summary');
-
   if (failedFields.length > 0) {
-    if (summary) {
-      summary.className = 'form-summary form-summary-error';
-      summary.textContent = failedFields.length === 1
-        ? 'One field needs your attention. It is marked below.'
-        : failedFields.length + ' fields need your attention. They are marked below.';
-      summary.hidden = false;
-    }
+    showSummary('error', failedFields.length === 1
+      ? 'One field needs your attention. It is marked below.'
+      : failedFields.length + ' fields need your attention. They are marked below.');
 
     // Jump to the first problem without clearing anything the visitor typed.
     const firstBadField = document.getElementById(failedFields[0]);
@@ -322,25 +265,18 @@ function handleSubmit(event) {
   }
 
   // Everything passed.
-  const form = document.getElementById('interest-form');
   const nameField = document.getElementById('full-name');
   const firstName = nameField ? nameField.value.trim().split(' ')[0] : 'there';
-
+  const summary = showSummary('success', 'Thank you, ' + firstName +
+    '. Your interest form is complete and a coordinator will reply within three business days.');
   if (summary) {
-    summary.className = 'form-summary form-summary-success';
-    summary.textContent = 'Thank you, ' + firstName +
-      '. Your interest form is complete and a coordinator will reply within three business days.';
-    summary.hidden = false;
     summary.scrollIntoView({ block: 'center', behavior: 'smooth' });
   }
 
   // The form is submitted, so the draft and the shortlist are no longer needed.
   clearFromStorage(STORAGE_KEYS.formDraft);
   clearFromStorage(STORAGE_KEYS.savedPets);
-
-  if (form) {
-    form.reset();
-  }
+  event.target.reset();
 
   const noticeBox = document.getElementById('saved-pets-notice');
   if (noticeBox) {
@@ -369,15 +305,13 @@ function initInterestForm() {
 
   /* Re-check a field once the visitor leaves it, and clear the red state as
      soon as they start fixing it. */
-  Object.keys(VALIDATION_RULES).forEach(function (fieldId) {
+  Object.keys(VALIDATION_RULES).forEach((fieldId) => {
     const field = document.getElementById(fieldId);
     if (!field) {
       return;
     }
-    field.addEventListener('blur', function () {
-      validateField(fieldId);
-    });
-    field.addEventListener('input', function () {
+    field.addEventListener('blur', () => validateField(fieldId));
+    field.addEventListener('input', () => {
       if (field.classList.contains('has-error')) {
         validateField(fieldId);
       }
@@ -385,8 +319,8 @@ function initInterestForm() {
     });
   });
 
-  document.querySelectorAll('input[name="interest-type"]').forEach(function (radio) {
-    radio.addEventListener('change', function () {
+  document.querySelectorAll(INTEREST_RADIOS).forEach((radio) => {
+    radio.addEventListener('change', () => {
       validateInterestChoice();
       saveFormDraft();
     });
@@ -394,13 +328,9 @@ function initInterestForm() {
 
   const clearButton = document.getElementById('clear-form');
   if (clearButton) {
-    clearButton.addEventListener('click', function () {
+    clearButton.addEventListener('click', () => {
       clearFromStorage(STORAGE_KEYS.formDraft);
-      Object.keys(VALIDATION_RULES).forEach(clearFieldError);
-      const interestError = document.getElementById('error-interest-type');
-      if (interestError) {
-        interestError.textContent = '';
-      }
+      Object.keys(VALIDATION_RULES).concat('interest-type').forEach((fieldId) => setFieldError(fieldId));
       const summary = document.getElementById('form-summary');
       if (summary) {
         summary.hidden = true;
